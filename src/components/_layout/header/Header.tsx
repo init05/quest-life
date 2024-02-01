@@ -1,6 +1,6 @@
 import {AppBar, Drawer, IconButton, Link, Toolbar, Typography} from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
-import Navbar from "@/components/_layout/Navbar";
+import Navbar from "@/components/_layout/header/Navbar";
+import Notifications from "@/components/_layout/header/Notifications";
 
 export const Header: React.FC = () => {
     return (
@@ -11,9 +11,10 @@ export const Header: React.FC = () => {
             >
                 <Toolbar>
                     <Navbar/>
-                    <Link color='inherit' underline='none' variant='h5'>
+                    <Link color='inherit' underline='none' variant='h5' sx={{flexGrow: 1}}>
                         quest life
                     </Link>
+                    <Notifications/>
                 </Toolbar>
             </AppBar>
         </>
