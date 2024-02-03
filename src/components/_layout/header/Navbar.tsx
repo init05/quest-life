@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
                             {
                                 questTabs.map((el) =>
                                     <ListItem key={el.title} disablePadding>
-                                        <ListItemButton>
+                                        <ListItemButton href={el.href}>
                                             <ListItemIcon>
                                                 {el.icon}
                                             </ListItemIcon>
@@ -96,7 +96,7 @@ const Navbar: React.FC = () => {
                             {
                                 otherTabs.map((el)=>
                                     <ListItem key={el.title} disablePadding>
-                                        <ListItemButton>
+                                        <ListItemButton href={el.href}>
                                             <ListItemIcon>
                                                 {el.icon}
                                             </ListItemIcon>
