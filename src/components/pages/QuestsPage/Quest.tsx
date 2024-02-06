@@ -13,20 +13,20 @@ import {
     useMediaQuery
 } from "@mui/material";
 import {QuestProps} from "@/components/pages/QuestsPage/types";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ExpandMoreButton from "@/components/pages/QuestsPage/ExpandMore.Button";
 import {ExpandMore} from "@mui/icons-material";
 import theme from "@/utils/theme";
 
 const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime, description, id, daily, active}) => {
     const [expanded, setExpanded] = useState<boolean>(false);
+    const [currentDate, setCurrentDate] = useState(new Date());
     const endDate = new Date(endTime);
     const startDate = new Date(startTime ? startTime : "");
-    const currentDate = new Date();
     const matchesMobile = useMediaQuery(theme.breakpoints.up('sm'));
 
     const normalise = (value: number) => ((value - startDate.getTime()) * 100) / (endDate.getTime() - startDate.getTime());
-    const normalisedCurrentTime = normalise(currentDate.getTime());
+    const [normalisedCurrentTime, setNormalisedCurrentTime] = useState(normalise(currentDate.getTime()));
 
     const handleExpandClick = () => {
         setExpanded(prevState => !prevState);
@@ -54,6 +54,14 @@ const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime
             // return `${date.toUTCString()} ${dayDictionary[date.getDay()]}`
         }
     }
+
+    useEffect(() => {
+        let timer = setInterval(()=>setCurrentDate(new Date()), 1000);
+
+        return function cleanup() {
+            clearInterval(timer);
+        }
+    }, []);
 
     return (
         <ListItem>

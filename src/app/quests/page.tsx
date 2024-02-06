@@ -23,8 +23,7 @@ export default function QuestsPage() {
             <List >
             {
                 quests.map((el) =>
-                    <Quest key={el.id} id={el.id} title={el.title} reward={el.reward} description={el.description}
-                           startTime={el.startTime} endTime={el.endTime} penalty={el.penalty} active={el.active}/>
+                    <Quest key={el.id} {...el}/>
                 )
             }
             </List>
