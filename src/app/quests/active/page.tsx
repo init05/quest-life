@@ -1,8 +1,8 @@
 import {QuestProps} from "@/components/pages/QuestsPage/types";
-import Quest from "@/components/pages/QuestsPage/Quest";
 import {List} from "@mui/material";
+import Quest from "@/components/pages/QuestsPage/Quest";
 
-export default function QuestsPage() {
+export default function ActiveQuests() {
     const quests: QuestProps[] = [
         {
             id: "1",
@@ -12,21 +12,20 @@ export default function QuestsPage() {
             endTime: "2024-02-10T17:26:49+0000",
             reward: {id: "123", title: "Lorem ipsum dolor sit.", description: "dasdasd", available: true},
             penalty: "Lorem ipsum dolor sit amet.",
-            active: false,
-            daily: false
+            active: true
         }
     ]
     quests.push(quests[0]);
 
     return (
         <>
-            <List >
-            {
-                quests.map((el) =>
-                    <Quest key={el.id} id={el.id} title={el.title} reward={el.reward} description={el.description}
-                           startTime={el.startTime} endTime={el.endTime} penalty={el.penalty} active={el.active}/>
-                )
-            }
+            <List>
+                {
+                    quests.map((el) =>
+                        <Quest key={el.id} id={el.id} title={el.title} reward={el.reward} description={el.description}
+                               startTime={el.startTime} endTime={el.endTime} penalty={el.penalty} active={el.active}/>
+                    )
+                }
             </List>
         </>
     )

@@ -1,6 +1,7 @@
 'use client'
 
 import {
+    Box, Button,
     Card,
     CardActions,
     CardContent,
@@ -17,7 +18,7 @@ import ExpandMoreButton from "@/components/pages/QuestsPage/ExpandMore.Button";
 import {ExpandMore} from "@mui/icons-material";
 import theme from "@/utils/theme";
 
-const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime, description, id}) => {
+const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime, description, id, daily, active}) => {
     const [expanded, setExpanded] = useState<boolean>(false);
     const endDate = new Date(endTime);
     const startDate = new Date(startTime ? startTime : "");
@@ -40,17 +41,62 @@ const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime
         return "primary"
     }
 
+    // Needs to be changed
+    const formattedDate = (date: Date) => {
+        if (date.getTime() < currentDate.getTime()) {
+            return `${date.toUTCString()}`
+            // return `${date.getUTCDate()} ${months[date.getMonth()]} ${dayDictionary[date.getDay()]}`
+        } else if (date === currentDate) {
+            return `${date.toUTCString()}`
+            // return `${date.toUTCString()} ${dayDictionary[date.getDay()]}`
+        } else {
+            return `${date.toUTCString()}`
+            // return `${date.toUTCString()} ${dayDictionary[date.getDay()]}`
+        }
+    }
+
     return (
         <ListItem>
             <Card sx={{width: "100%"}}>
                 <CardContent>
-                    <Typography sx={{mb: 2}} variant={"h5"} component={"h5"}>
-                        {title}
-                    </Typography>
-                    <Typography sx={{maxWidth: matchesMobile ? "30%" : "100%"}} paragraph>
-                        {description}
-                    </Typography>
-                    <LinearProgress variant="determinate" color={getProgressColor(normalisedCurrentTime)} value={normalisedCurrentTime}/>
+                    <Box sx={{display: "flex", justifyContent: "space-between"}}>
+                        <Box sx={{display: "flex", flexDirection: "column"}}>
+                            <Typography sx={{mb: 2}} variant={"h5"} component={"h5"}>
+                                {title}
+                            </Typography>
+                            <Typography sx={{maxWidth: matchesMobile ? "30%" : "100%"}} paragraph>
+                                {description}
+                            </Typography>
+                        </Box>
+                        <Box sx={{display: "flex", alignSelf: "flex-end", mb: "10px", gap: "10px"}}>
+                            {
+                                active ?
+                                    <Button variant="outlined" color="error">
+                                        Cancel
+                                    </Button>
+                                    :
+                                    <Button variant="contained" color="success">
+                                        Accept
+                                    </Button>
+                            }
+                        </Box>
+                    </Box>
+                    <LinearProgress variant="determinate" color={getProgressColor(normalisedCurrentTime)}
+                                    value={normalisedCurrentTime}/>
+                    <Box sx={{width: '100%', display: "flex", position: "relative", mt: "5px"}} role="presentation">
+                        <Typography sx={{position: 'absolute'}}>
+                            {formattedDate(startDate)}
+                        </Typography>
+                        {
+                            matchesMobile &&
+                            <Typography sx={{position: 'absolute', left: `${normalisedCurrentTime - 7}%`}}>
+                                {formattedDate(currentDate)}
+                            </Typography>
+                        }
+                        <Typography sx={{position: 'absolute', right: 0}}>
+                            {formattedDate(endDate)}
+                        </Typography>
+                    </Box>
                 </CardContent>
                 <CardActions>
                     <ExpandMoreButton expand={expanded} onClick={handleExpandClick} aria-expanded={expanded}
@@ -62,7 +108,7 @@ const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime
                     <Divider/>
                     <CardContent>
                         <Typography>
-                            Reward: {reward}
+                            Reward: {reward.title}
                         </Typography>
                         <Typography>
                             Penalty: {penalty}
