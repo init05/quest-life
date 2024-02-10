@@ -1,32 +1,48 @@
 'use client'
 
 import {
-    Box, Button,
+    Box,
+    Button,
     Card,
     CardActions,
     CardContent,
     Collapse,
     Divider,
-    LinearProgress,
-    ListItem,
-    Typography,
-    useMediaQuery
+    LinearProgress, ListItem,
+    Typography, useMediaQuery
 } from "@mui/material";
-import {QuestProps} from "@/components/pages/QuestsPage/types";
-import {useEffect, useState} from "react";
 import ExpandMoreButton from "@/components/pages/QuestsPage/ExpandMore.Button";
 import {ExpandMore} from "@mui/icons-material";
+import {Reward} from "@/components/pages/QuestsPage/types";
+import {useEffect, useState} from "react";
 import theme from "@/utils/theme";
 import getProgressColor from "@/utils/getProgressColor";
 import formatDate from "@/utils/formatDate";
 
-const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime, description, id, daily, active}) => {
+export type PendingQuestProps = {
+    id: string;
+    title: string;
+    description: string;
+    endTime: string;
+    reward: Reward;
+    penalty?: string;
+    daily?: boolean;
+}
+
+const PendingQuest: React.FC<PendingQuestProps> = ({
+                                                       id,
+                                                       title,
+                                                       penalty,
+                                                       reward,
+                                                       endTime,
+                                                       description,
+                                                       daily
+                                                   }) => {
     const [expanded, setExpanded] = useState<boolean>(false);
+    const matchesMobile = useMediaQuery(theme.breakpoints.up('sm'));
     const [currentDate, setCurrentDate] = useState(new Date());
     const endDate = new Date(endTime);
-    const startDate = new Date(startTime ? startTime : "2024-02-03T10:26:49+0000");
-    const matchesMobile = useMediaQuery(theme.breakpoints.up('sm'));
-
+    const startDate = new Date(parseInt(id) - 1000);
     const normalise = (value: number) => startDate ? ((value - startDate.getTime()) * 100) / (endDate.getTime() - startDate.getTime()) : ((value - endDate.getTime() - 10000) * 100) / (endDate.getTime() - endDate.getTime() - 10000);
     const [normalisedCurrentTime, setNormalisedCurrentTime] = useState(normalise(currentDate.getTime()));
 
@@ -56,16 +72,12 @@ const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime
                             </Typography>
                         </Box>
                         <Box sx={{display: "flex", alignSelf: "flex-end", mb: "10px", gap: "10px"}}>
-                            {
-                                active ?
-                                    <Button variant="outlined" color="error">
-                                        Cancel
-                                    </Button>
-                                    :
-                                    <Button variant="contained" color="success">
-                                        Accept
-                                    </Button>
-                            }
+                            <Button variant="outlined" color="error">
+                                Cancel
+                            </Button>
+                            <Button variant="contained" color="success">
+                                Accept
+                            </Button>
                         </Box>
                     </Box>
                     <LinearProgress variant="determinate" color={getProgressColor(normalisedCurrentTime)}
@@ -106,4 +118,4 @@ const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime
         </ListItem>
     )
 }
-export default Quest;
+export default PendingQuest;

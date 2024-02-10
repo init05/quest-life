@@ -13,8 +13,16 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import React from "react";
 import usePendingQuestsStore from "@/stores/pendingQuestsStore";
-import {QuestProps} from "@/components/pages/QuestsPage/types";
 import {DatePicker} from "@mui/x-date-pickers";
+import {PendingQuestProps} from "@/components/pages/ManageQuestsPage/PendingQuest";
+
+type formData = {
+    title: string;
+    description: string;
+    endTime: string;
+    rewardText: string;
+    penalty: string;
+}
 
 const CreateQuest = () => {
     const [open, setOpen] = React.useState(false);
@@ -44,9 +52,17 @@ const CreateQuest = () => {
                         const id = Date.now();
                         event.preventDefault();
                         const formData = new FormData(event.currentTarget);
-                        const quest = Object.fromEntries((formData as any).entries()) as QuestProps;
-                        quest.id = id.toString();
-                        addQuest(quest);
+                        const data = Object.fromEntries((formData as any).entries()) as formData;
+                        const quest = {
+                            id: id.toString(),
+                            title: data.title,
+                            description: data.description,
+                            endTime: data.endTime,
+                            reward: {id: id.toString(), description: data.rewardText, title: data.rewardText},
+                            penalty: data.penalty,
+                        };
+                        if (quest satisfies PendingQuestProps)
+                            addQuest(quest);
                         handleClose();
                     },
                 }}
@@ -85,7 +101,7 @@ const CreateQuest = () => {
                         required
                         margin="dense"
                         id="name"
-                        name="reward"
+                        name="rewardText"
                         label="Reward when you complete the quest"
                         type="text"
                         fullWidth

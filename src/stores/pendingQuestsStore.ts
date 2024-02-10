@@ -1,17 +1,19 @@
-import {QuestProps} from "@/components/pages/QuestsPage/types";
 import { create } from "zustand";
 import {persist} from "zustand/middleware";
+import {PendingQuestProps} from "@/components/pages/ManageQuestsPage/PendingQuest";
 
 interface PendingQuestsState {
-    quests: QuestProps[];
-    addQuest: (quest: QuestProps) => void;
+    quests: PendingQuestProps[];
+    addQuest: (quest: PendingQuestProps) => void;
+    clearQuests: () => void;
 }
 
 const usePendingQuestsStore = create<PendingQuestsState>()(
     persist(
         (set)=> ({
             quests: [],
-            addQuest: (quest: QuestProps) => set((state)=> ({quests: [...state.quests, quest]})),
+            addQuest: (quest: PendingQuestProps) => set((state)=> ({quests: [...state.quests, quest]})),
+            clearQuests: () => set(()=> ({quests: []}))
         }),
         {name: 'pendingQuestsStore'}
     )

@@ -2,10 +2,10 @@
 
 
 import usePendingQuestsStore from "@/stores/pendingQuestsStore";
-import Quest from "@/components/pages/QuestsPage/Quest";
-import {Box, Button, List} from "@mui/material";
+import {Button, ButtonGroup, List} from "@mui/material";
 import SaveIcon from '@mui/icons-material/Save';
 import React from "react";
+import PendingQuest from "@/components/pages/ManageQuestsPage/PendingQuest";
 
 const PendingQuests = () => {
     const quests = usePendingQuestsStore(state => state.quests);
@@ -19,15 +19,18 @@ const PendingQuests = () => {
             <List>
                 {
                     quests.map((el) =>
-                        <Quest key={el.id} {...el}/>
+                        <PendingQuest key={el.id} {...el}/>
                     )
                 }
             </List>
-            <Box sx={{display: "flex", boxSizing: "border-box", width: "100%", justifyContent: "flex-end", p: "10px"}}>
+            <ButtonGroup sx={{display: "flex", boxSizing: "border-box", width: "100%", justifyContent: "flex-end", p: "10px", gap: "5px"}}>
+                <Button color="error" onClick={handleClickSave} variant="contained" endIcon={<SaveIcon/>}>
+                    Delete all
+                </Button>
                 <Button onClick={handleClickSave} variant="contained" endIcon={<SaveIcon/>}>
                     Save
                 </Button>
-            </Box>
+            </ButtonGroup>
         </>
     )
 }
