@@ -13,11 +13,11 @@ import {
 } from "@mui/material";
 import ExpandMoreButton from "@/components/pages/QuestsPage/ExpandMore.Button";
 import {ExpandMore} from "@mui/icons-material";
-import {Reward} from "@/components/pages/QuestsPage/types";
 import {useEffect, useState} from "react";
 import theme from "@/utils/theme";
 import getProgressColor from "@/utils/getProgressColor";
 import formatDate from "@/utils/formatDate";
+import {Penalty, Reward} from "@/types/quest";
 
 export type PendingQuestProps = {
     id: string;
@@ -25,7 +25,7 @@ export type PendingQuestProps = {
     description: string;
     endTime: string;
     reward: Reward;
-    penalty?: string;
+    penalty?: Penalty;
     daily?: boolean;
 }
 
@@ -40,9 +40,11 @@ const PendingQuest: React.FC<PendingQuestProps> = ({
                                                    }) => {
     const [expanded, setExpanded] = useState<boolean>(false);
     const matchesMobile = useMediaQuery(theme.breakpoints.up('sm'));
-    const [currentDate, setCurrentDate] = useState(new Date());
     const endDate = new Date(endTime);
     const startDate = new Date(parseInt(id) - 1000);
+    const interval = (endDate.getTime() - startDate.getTime()) / 2;
+    const [currentDate, setCurrentDate] = useState(new Date(new Date().getTime() + interval));
+
     const normalise = (value: number) => startDate ? ((value - startDate.getTime()) * 100) / (endDate.getTime() - startDate.getTime()) : ((value - endDate.getTime() - 10000) * 100) / (endDate.getTime() - endDate.getTime() - 10000);
     const [normalisedCurrentTime, setNormalisedCurrentTime] = useState(normalise(currentDate.getTime()));
 
@@ -51,7 +53,7 @@ const PendingQuest: React.FC<PendingQuestProps> = ({
     }
 
     useEffect(() => {
-        let timer = setInterval(() => setCurrentDate(new Date()), 1000);
+        let timer = setInterval(() => setCurrentDate(new Date(new Date().getTime() + interval)), 1000);
 
         return function cleanup() {
             clearInterval(timer);
@@ -110,7 +112,7 @@ const PendingQuest: React.FC<PendingQuestProps> = ({
                             Reward: {reward.title}
                         </Typography>
                         <Typography>
-                            Penalty: {penalty}
+                            Penalty: {penalty?.title}
                         </Typography>
                     </CardContent>
                 </Collapse>

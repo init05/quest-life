@@ -1,3 +1,5 @@
+import {Penalty, Reward} from "@/types/quest";
+
 export type QuestProps = {
     id: string;
     title: string;
@@ -5,22 +7,8 @@ export type QuestProps = {
     startTime?: string;
     endTime: string;
     reward: Reward;
-    penalty?: string;
+    penalty: Penalty;
     active?: boolean;
     daily?: boolean;
     completed?: boolean;
-}
-
-export type Reward = {
-    id: string;
-    title: string;
-    description: string;
-    available?: boolean;
-}
-
-export type Penalty = {
-    id: string;
-    title: string;
-    description: string;
-    isPending?: boolean;
 }

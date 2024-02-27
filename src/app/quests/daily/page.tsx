@@ -11,7 +11,7 @@ export default function DailyQuestsPage() {
             startTime: "2024-02-03T10:26:49+0000",
             endTime: "2024-02-10T17:26:49+0000",
             reward: {id: "123", title: "Lorem ipsum dolor sit.", description: "dasdasd", available: true},
-            penalty: "Lorem ipsum dolor sit amet.",
+            penalty: {id:"Lorem ipsum dolor sit amet.", title: "", description: ""},
             active: false,
             daily: true
         },
@@ -22,7 +22,7 @@ export default function DailyQuestsPage() {
             startTime: "2024-02-03T10:26:49+0000",
             endTime: "2024-02-10T17:26:49+0000",
             reward: {id: "123", title: "Lorem ipsum dolor sit.", description: "dasdasd", available: true},
-            penalty: "Lorem ipsum dolor sit amet.",
+            penalty: {id:"Lorem ipsum dolor sit amet.", title: "", description: ""},
             active: false,
             daily: true
         },

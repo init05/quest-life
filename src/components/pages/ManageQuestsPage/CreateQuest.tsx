@@ -13,7 +13,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import React from "react";
 import usePendingQuestsStore from "@/stores/pendingQuestsStore";
-import {DatePicker} from "@mui/x-date-pickers";
+import {DateTimePicker} from "@mui/x-date-pickers";
 import {PendingQuestProps} from "@/components/pages/ManageQuestsPage/PendingQuest";
 
 type formData = {
@@ -59,9 +59,9 @@ const CreateQuest = () => {
                             description: data.description,
                             endTime: data.endTime,
                             reward: {id: id.toString(), description: data.rewardText, title: data.rewardText},
-                            penalty: data.penalty,
-                        };
-                        if (quest satisfies PendingQuestProps)
+                            penalty: {id: id.toString(), title: data.penalty, description: data.penalty},
+                        } satisfies PendingQuestProps;
+                        if (quest )
                             addQuest(quest);
                         handleClose();
                     },
@@ -95,7 +95,7 @@ const CreateQuest = () => {
                         fullWidth
                         variant="standard"
                     />
-                    <DatePicker name="endTime"/>
+                    <DateTimePicker name="endTime"/>
                     <TextField
                         autoFocus
                         required

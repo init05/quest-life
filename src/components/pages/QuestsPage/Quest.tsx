@@ -19,10 +19,12 @@ import {ExpandMore} from "@mui/icons-material";
 import theme from "@/utils/theme";
 import getProgressColor from "@/utils/getProgressColor";
 import formatDate from "@/utils/formatDate";
+import useActiveQuestsStore from "@/stores/activeQuestsStore";
 
 const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime, description, id, daily, active}) => {
     const [expanded, setExpanded] = useState<boolean>(false);
     const [currentDate, setCurrentDate] = useState(new Date());
+    const activateQuest = useActiveQuestsStore(state => state.activateQuest);
     const endDate = new Date(endTime);
     const startDate = new Date(startTime ? startTime : "2024-02-03T10:26:49+0000");
     const matchesMobile = useMediaQuery(theme.breakpoints.up('sm'));
@@ -41,6 +43,22 @@ const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime
             clearInterval(timer);
         }
     }, []);
+
+    const handleActivate = () => {
+        const quest: QuestProps = {
+            id: id,
+            title: title,
+            penalty: penalty,
+            reward: reward,
+            startTime: currentDate.toString(),
+            endTime: endTime,
+            description: description,
+            daily: daily,
+            active: true
+        }
+        activateQuest(quest);
+
+    }
 
     return (
         <ListItem>
@@ -98,7 +116,7 @@ const Quest: React.FC<QuestProps> = ({title, penalty, reward, startTime, endTime
                             Reward: {reward.title}
                         </Typography>
                         <Typography>
-                            Penalty: {penalty}
+                            Penalty: {penalty?.title}
                         </Typography>
                     </CardContent>
                 </Collapse>
