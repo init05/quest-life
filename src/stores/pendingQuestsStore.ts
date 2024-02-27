@@ -1,7 +1,5 @@
 import {create} from "zustand";
-import {persist} from "zustand/middleware";
 import {PendingQuestProps} from "@/components/pages/ManageQuestsPage/PendingQuest";
-import quest from "@/components/pages/QuestsPage/Quest";
 
 interface PendingQuestsState {
     quests: PendingQuestProps[];

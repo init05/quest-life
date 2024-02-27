@@ -1,6 +1,5 @@
 'use client'
 
-import {QuestProps} from "@/components/pages/QuestsPage/types";
 import Quest from "@/components/pages/QuestsPage/Quest";
 import {List} from "@mui/material";
 import useAvailableQuestsStore from "@/stores/availableQuestsStore";
